@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Svg, {
   Path,
   Text,
@@ -7,8 +7,8 @@ import Svg, {
   Defs,
   ClipPath,
   Rect,
-} from 'react-native-svg';
-import {validateValue} from './utils/helpers';
+} from "react-native-svg";
+import { validateValue } from "../utils/helpers";
 
 interface GaugeCurveProps {
   value: number;
@@ -23,12 +23,12 @@ interface GaugeCurveProps {
 
 const GaugeCurve: React.FC<GaugeCurveProps> = ({
   value,
-  gaugeColor = '#ff0',
-  gaugeValueColor = ['#0000ff'],
+  gaugeColor = "#ff0",
+  gaugeValueColor = ["#0000ff"],
   gaugeStroke = 2,
   gaugeValueStroke = 2.5,
   children,
-  insideTextColor = '#999',
+  insideTextColor = "#999",
   size = 150,
 }) => {
   const validatedValue = validateValue(value, 0, 100);
@@ -45,8 +45,8 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
     cx: number,
     cy: number,
     radius: number,
-    angle: number,
-  ): {x: number; y: number} {
+    angle: number
+  ): { x: number; y: number } {
     const rad = (angle * Math.PI) / 180;
     return {
       x: Math.round((cx + radius * Math.cos(rad)) * 1000) / 1000,
@@ -57,8 +57,8 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
   function getDialCoords(
     radius: number,
     startAngle: number,
-    endAngle: number,
-  ): {start: {x: number; y: number}; end: {x: number; y: number}} {
+    endAngle: number
+  ): { start: { x: number; y: number }; end: { x: number; y: number } } {
     const cx = 50,
       cy = 50;
     return {
@@ -75,7 +75,7 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
       opts.dialRadius,
       opts.dialStartAngle,
       angle + opts.dialStartAngle,
-      flag,
+      flag
     );
   }
 
@@ -83,18 +83,18 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
     radius: number,
     startAngle: number,
     endAngle: number,
-    largeArc?: number,
+    largeArc?: number
   ): string {
     const coords = getDialCoords(radius, startAngle, endAngle),
       start = coords.start,
       end = coords.end,
-      largeArcFlag = typeof largeArc === 'undefined' ? 1 : largeArc;
+      largeArcFlag = typeof largeArc === "undefined" ? 1 : largeArc;
 
     return [
-      'M',
+      "M",
       start.x,
       start.y,
-      'A',
+      "A",
       radius,
       radius,
       0,
@@ -102,7 +102,7 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
       1,
       end.x,
       end.y,
-    ].join(' ');
+    ].join(" ");
   }
 
   return (
