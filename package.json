@@ -1,6 +1,6 @@
 {
   "name": "gauge-curve",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Gauge Curve",
   "main": "./index.ts",
   "scripts": {
