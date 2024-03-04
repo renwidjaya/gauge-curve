@@ -1,3 +1,4 @@
+```
 import GaugeCurve from 'gauge-curve';
 
 // Gunakan GaugeCurve dalam kode Anda
@@ -16,3 +17,4 @@ const ExampleComponent = () => {
 };
 
 export default ExampleComponent;
+```
