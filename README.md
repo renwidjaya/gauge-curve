@@ -18,3 +18,11 @@ const ExampleComponent = () => {
 
 export default ExampleComponent;
 ```
+
+[Peer Depedences]()
+
+`yarn add react-native-svg`
+
+or
+
+`npm i react-native-svg`
