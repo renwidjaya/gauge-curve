@@ -1,5 +1,5 @@
 {
-  "name": "@renwidjaya/rn-gauge-curve",
+  "name": "gauge-curve",
   "version": "1.0.1",
   "description": "Gauge Curve",
   "main": "./src/index.ts",
