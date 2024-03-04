@@ -7,5 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "renwidjaya",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renwidjaya/gauge-curve.git"
+  },
+  "keywords": [
+    "gauge",
+    "curve"
+  ],
+  "bugs": {
+    "url": "https://github.com/renwidjaya/gauge-curve/issues"
+  },
+  "homepage": "https://github.com/renwidjaya/gauge-curve#readme"
 }
