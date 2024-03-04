@@ -1,8 +1,8 @@
 {
-  "name": "gauge-curve",
+  "name": "@renwidjaya/rn-gauge-curve",
   "version": "1.0.0",
   "description": "Gauge Curve",
-  "main": "index.ts",
+  "main": "./src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
