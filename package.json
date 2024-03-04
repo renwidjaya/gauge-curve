@@ -1,6 +1,6 @@
 {
   "name": "@renwidjaya/rn-gauge-curve",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Gauge Curve",
   "main": "./src/index.ts",
   "scripts": {
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/renwidjaya/gauge-curve/issues"
   },
-  "homepage": "https://github.com/renwidjaya/gauge-curve#readme"
+  "homepage": "https://github.com/renwidjaya/gauge-curve#readme",
+  "dependencies": {
+    "react-native-svg": "^15.0.0"
+  }
 }
