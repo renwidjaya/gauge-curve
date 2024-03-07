@@ -1,13 +1,13 @@
 {
   "name": "gauge-curve",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Gauge Curve",
   "main": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "renwidjaya",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/renwidjaya/gauge-curve.git"
@@ -20,7 +20,9 @@
     "url": "https://github.com/renwidjaya/gauge-curve/issues"
   },
   "homepage": "https://github.com/renwidjaya/gauge-curve#readme",
-  "dependencies": {
-    "react-native-svg": "^15.0.0"
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-svg": "*"
   }
 }

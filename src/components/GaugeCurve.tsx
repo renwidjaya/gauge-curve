@@ -1,13 +1,10 @@
+/**
+ * @dev renwidjaya
+ * @version V.1.0.4
+ * @email renwidjaya@gmail.com
+ */
 import React from "react";
-import Svg, {
-  Path,
-  Text,
-  LinearGradient,
-  Stop,
-  Defs,
-  ClipPath,
-  Rect,
-} from "react-native-svg";
+import Svg, { Path, Text, LinearGradient, Stop, Defs } from "react-native-svg";
 import { validateValue } from "../utils/helpers";
 
 interface GaugeCurveProps {
@@ -21,6 +18,10 @@ interface GaugeCurveProps {
   children?: React.ReactNode;
 }
 
+/**
+ * @param
+ * @returns
+ */
 const GaugeCurve: React.FC<GaugeCurveProps> = ({
   value,
   gaugeColor = "#ff0",
@@ -33,8 +34,10 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
 }) => {
   const validatedValue = validateValue(value, 0, 100);
   const opts = {
-    dialRadius: 40,
-    dialStartAngle: 135,
+    dialRadius: 40 - Math.max(gaugeStroke, gaugeValueStroke) / 2,
+    dialStartAngle: 180, // Mulai dari jam 6 (di SVG, 270 derajat)
+    dialEndAngle: 360, // Berakhir di jam 12 (0 atau 360 derajat di SVG)
+    strokeWidth: 4,
   };
 
   function getAngle(gaugeSpanAngle: number): number {
@@ -68,13 +71,14 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
   }
 
   function updateGauge(): string {
-    const angle = getAngle(360 - Math.abs(136 - 45)),
+    const gaugeSpanAngle = Math.abs(opts.dialEndAngle - opts.dialStartAngle),
+      angle = getAngle(gaugeSpanAngle),
       flag = angle <= 180 ? 0 : 1;
 
     return pathString(
       opts.dialRadius,
       opts.dialStartAngle,
-      angle + opts.dialStartAngle,
+      opts.dialStartAngle + angle,
       flag
     );
   }
@@ -88,7 +92,7 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
     const coords = getDialCoords(radius, startAngle, endAngle),
       start = coords.start,
       end = coords.end,
-      largeArcFlag = typeof largeArc === "undefined" ? 1 : largeArc;
+      largeArcFlag = typeof largeArc === "undefined" ? 0 : largeArc; // Untuk sudut yang kurang dari 180 derajat, largeArcFlag ini harus 0
 
     return [
       "M",
@@ -107,55 +111,59 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
 
   return (
     <Svg height={size} width={size} viewBox="0 0 100 100">
-      <Defs>
-        <ClipPath id="clip">
-          <Rect x="0" y="0" width="100" height="50" />
-        </ClipPath>
-      </Defs>
+      {/* ClipPath dan Defs tidak diperlukan jika menggambar separuh lingkaran tanpa memotong path */}
 
+      {/* Draw the gauge background */}
       <Path
-        fill="none"
-        d="M 21.716 78.284 A 40 40 0 0 1 78.284 78.284"
-        clipPath="url(#clip)" // Memotong path ini menjadi setengah lingkaran
-      />
-
-      {/* Anak-anak */}
-      {!!children ? (
-        children
-      ) : (
-        <Text x={50} y={50} fill={insideTextColor} textAnchor="middle">
-          {validatedValue}
-        </Text>
-      )}
-
-      <Path
-        strokeDasharray="50,0,20,0"
         fill="none"
         stroke={gaugeColor}
         strokeWidth={gaugeStroke}
-        d="M 21.716 78.284 A 40 40 0 1 1 78.284 78.284"
+        d={pathString(opts.dialRadius, opts.dialStartAngle, opts.dialEndAngle)}
         strokeLinecap="round"
-        strokeLinejoin="round" // Menambahkan radius pada sudut-sudut
       />
 
+      {/* Draw the gauge value */}
       <Path
-        strokeDasharray="50,0,20,0"
         fill="none"
-        stroke={`url(#gaugeValueGradient)`} // Gunakan linier gradient
+        stroke={`url(#gaugeValueGradient)`}
         strokeWidth={gaugeValueStroke}
-        d={updateGauge()}
         strokeLinecap="round"
-        strokeLinejoin="round" // Menambahkan radius pada sudut-sudut
+        d={updateGauge()}
       />
-      <LinearGradient id="gaugeValueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        {gaugeValueColor.map((color, index) => (
-          <Stop
-            key={index}
-            offset={`${(index / (gaugeValueColor.length - 1)) * 100}%`}
-            stopColor={color}
-          />
-        ))}
-      </LinearGradient>
+
+      {/* LinearGradient definition */}
+      <Defs>
+        <LinearGradient
+          id="gaugeValueGradient"
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="0%"
+        >
+          {gaugeValueColor.map((color, index) => (
+            <Stop
+              key={index}
+              offset={`${(index / (gaugeValueColor.length - 1)) * 100}%`}
+              stopColor={color}
+            />
+          ))}
+        </LinearGradient>
+      </Defs>
+
+      {/* Optional children or default text */}
+      {!!children ? (
+        children
+      ) : (
+        <Text
+          x={50}
+          y={50}
+          fill={insideTextColor}
+          textAnchor="middle"
+          fontSize="10"
+        >
+          {`${validatedValue}%`}
+        </Text>
+      )}
     </Svg>
   );
 };
