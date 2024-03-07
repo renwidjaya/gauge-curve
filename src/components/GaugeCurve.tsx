@@ -35,7 +35,7 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
   const validatedValue = validateValue(value, 0, 100);
   const opts = {
     dialRadius: 40 - Math.max(gaugeStroke, gaugeValueStroke) / 2,
-    dialStartAngle: 180, // Mulai dari jam 6 (di SVG, 270 derajat)
+    dialStartAngle: 180, // Mulai dari jam 6 (di SVG, 180 derajat)
     dialEndAngle: 360, // Berakhir di jam 12 (0 atau 360 derajat di SVG)
     strokeWidth: 4,
   };
