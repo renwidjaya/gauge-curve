@@ -1,14 +1,21 @@
 /**
  * @dev renwidjaya
- * @version V.1.0.4
+ * @version V.1.0.7
  * @email renwidjaya@gmail.com
- * @model GAUGE CURVE
+ * @mode GAUGE CIRCLE
  */
 import React from "react";
-import Svg, { Path, Text, LinearGradient, Stop, Defs } from "react-native-svg";
+import Svg, {
+  Path,
+  Text,
+  LinearGradient,
+  Stop,
+  Defs,
+  Circle,
+} from "react-native-svg";
 import { validateValue } from "../utils/helpers";
 
-interface GaugeCurveProps {
+interface GaugeCircleProps {
   value: number;
   gaugeColor?: string;
   gaugeValueColor?: string[];
@@ -19,11 +26,7 @@ interface GaugeCurveProps {
   children?: React.ReactNode;
 }
 
-/**
- * @param
- * @returns
- */
-const GaugeCurve: React.FC<GaugeCurveProps> = ({
+const GaugeCircle: React.FC<GaugeCircleProps> = ({
   value,
   gaugeColor = "#ff0",
   gaugeValueColor = ["#0000ff"],
@@ -35,9 +38,9 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
 }) => {
   const validatedValue = validateValue(value, 0, 100);
   const opts = {
-    dialRadius: 40 - Math.max(gaugeStroke, gaugeValueStroke) / 2,
-    dialStartAngle: 180, // Mulai dari jam 6 (di SVG, 180 derajat)
-    dialEndAngle: 360, // Berakhir di jam 12 (0 atau 360 derajat di SVG)
+    dialRadius: 40,
+    dialStartAngle: 90, // Mulai dari jam 6 (di SVG, 90 derajat)
+    dialEndAngle: 450, // Berakhir di jam 12 (0 atau 360 derajat di SVG)
     strokeWidth: 4,
   };
 
@@ -72,9 +75,9 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
   }
 
   function updateGauge(): string {
-    const gaugeSpanAngle = Math.abs(opts.dialEndAngle - opts.dialStartAngle),
-      angle = getAngle(gaugeSpanAngle),
-      flag = angle <= 180 ? 0 : 1;
+    const gaugeSpanAngle = Math.abs(opts.dialEndAngle - opts.dialStartAngle);
+    const angle = getAngle(gaugeSpanAngle);
+    const flag = angle <= 180 ? 0 : 1;
 
     return pathString(
       opts.dialRadius,
@@ -90,10 +93,10 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
     endAngle: number,
     largeArc?: number
   ): string {
-    const coords = getDialCoords(radius, startAngle, endAngle),
-      start = coords.start,
-      end = coords.end,
-      largeArcFlag = typeof largeArc === "undefined" ? 0 : largeArc; // Untuk sudut yang kurang dari 180 derajat, largeArcFlag ini harus 0
+    const coords = getDialCoords(radius, startAngle, endAngle);
+    const start = coords.start;
+    const end = coords.end;
+    const largeArcFlag = typeof largeArc === "undefined" ? 0 : largeArc; // Untuk sudut yang kurang dari 180 derajat, largeArcFlag ini harus 0
 
     return [
       "M",
@@ -112,15 +115,14 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
 
   return (
     <Svg height={size} width={size} viewBox="0 0 100 100">
-      {/* ClipPath dan Defs tidak diperlukan jika menggambar separuh lingkaran tanpa memotong path */}
-
       {/* Draw the gauge background */}
-      <Path
-        fill="none"
-        stroke={gaugeColor}
-        strokeWidth={gaugeStroke}
-        d={pathString(opts.dialRadius, opts.dialStartAngle, opts.dialEndAngle)}
-        strokeLinecap="round"
+      <Circle
+        cx="50"
+        cy="50"
+        r={opts.dialRadius}
+        fill="none" // No fill for the background circle
+        stroke={gaugeColor} // Set the stroke color for the background circle
+        strokeWidth={gaugeStroke} // Set the stroke width for the background circle
       />
 
       {/* Draw the gauge value */}
@@ -169,4 +171,4 @@ const GaugeCurve: React.FC<GaugeCurveProps> = ({
   );
 };
 
-export default GaugeCurve;
+export default GaugeCircle;
