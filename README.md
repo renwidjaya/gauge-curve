@@ -61,3 +61,6 @@ export default App;
 or
 
 `npm i react-native-svg`
+
+
+![1709792405461](image/README/1709792405461.png)
